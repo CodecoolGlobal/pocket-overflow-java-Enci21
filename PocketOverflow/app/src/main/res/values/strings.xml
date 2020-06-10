@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">PocketOverflow</string>
+    <string name="first_years">First years</string>
+    <string name="everyone_else">Everyone else</string>
+    <string name="password">Password</string>
+    <string name="name">Name</string>
+    <string name="alohomora">Alohomora!</string>
+    <string name="save">Save</string>
+    <string name="sort_my_house">Sort me into a house!</string>
+    <string name="all_right">All right!</string>
+    <string name="title_activity_me">MeActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="my_things">My things</string>
+    <string name="common_room">Common room</string>
+    <string name="spells">Spells</string>
+    <string name="patronus">Patronus:</string>
+    <string name="are_you_an_animagus">Are you an animagus?</string>
+    <string name="are_you_a_part_of_dumbledore_s_army">Are you a part of Dumbledore\'s army?</string>
+    <string name="or_maybe_the_order_of_phoenix">Or maybe the Order of phoenix?</string>
+    <string name="what_kind_of_animal_are_you">What kind of animal are you?</string>
+    <string name="enroll_in_the_hogwarts">Enroll in the Hogwarts!</string>
+</resources>
