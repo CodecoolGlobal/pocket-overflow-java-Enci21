@@ -7,8 +7,8 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.pocketoverflow.registration.RegistrationActivity;
 import com.example.pocketoverflow.signIn.SignInActivity;
+import com.example.pocketoverflow.sortingHat.SortingHatActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         firstYearsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
+                Intent intent = new Intent(MainActivity.this, SortingHatActivity.class);
                 startActivity(intent);
             }
         });

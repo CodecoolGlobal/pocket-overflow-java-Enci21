@@ -3,6 +3,7 @@ package com.example.pocketoverflow.sortingHat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -10,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pocketoverflow.R;
 import com.example.pocketoverflow.registration.RegistrationActivity;
-import com.example.pocketoverflow.roomDB.User;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -29,22 +29,25 @@ public class SortingHatActivity extends AppCompatActivity implements SortingHatC
     @BindView(R.id.house)
     TextView house;
 
-    private String name;
-
-    private String password;
-
-    private SortingHatPresenter presenter;
+    public static final String EXTRA_HOUSE = "com.codecool.pocketoveflow.house";
+    @BindView(R.id.enroll)
+    Button enroll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sorting_hat);
         ButterKnife.bind(this);
-        Intent intent = getIntent();
-        presenter = new SortingHatPresenter(this, getApplication());
-        name = intent.getStringExtra(RegistrationActivity.EXTRA_NAME);
-        password = intent.getStringExtra(RegistrationActivity.EXTRA_password);
         setHouse();
+        enroll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SortingHatActivity.this, RegistrationActivity.class);
+                intent.putExtra(EXTRA_HOUSE, house.getText());
+                startActivity(intent);
+            }
+        });
+
     }
 
    /* public void showLoading(){
@@ -86,8 +89,7 @@ public class SortingHatActivity extends AppCompatActivity implements SortingHatC
     }
 
     public void register(View view) {
-        User user = new User(name, password, house.getText().toString());
-        presenter.insertUser(user);
+
         Toast.makeText(this, "You have been accepted at Hogwarts School of Witchcraft and Wizardry.", Toast.LENGTH_SHORT).show();
     }
 }

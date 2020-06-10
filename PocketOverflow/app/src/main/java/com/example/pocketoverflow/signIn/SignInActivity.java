@@ -17,8 +17,7 @@ import butterknife.ButterKnife;
 
 public class SignInActivity extends AppCompatActivity implements SignInContract.SignInView {
 
-    public static final String EXTRA_NAME = "com.codecool.pocketoverflow.name";
-    public static final String EXTRA_HOUSE = "com.codecool.pocketoverflow.house";
+    public static final String EXTRA_USER = "com.codecool.pocketoverflow.user";
     @BindView(R.id.editTextName)
     EditText nameEditText;
     @BindView(R.id.editTextPassword)
@@ -47,8 +46,7 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
             if (user.getPassword().equals(passwordEditText.getText().toString())) {
                 Toast.makeText(this, "Welcome " + username + "!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(SignInActivity.this, MeActivity.class);
-                intent.putExtra(EXTRA_NAME, nameEditText.getText().toString());
-                intent.putExtra(EXTRA_HOUSE, user.getHouse());
+                intent.putExtra(EXTRA_USER, user);
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "Username or password is wrong!", Toast.LENGTH_SHORT).show();
