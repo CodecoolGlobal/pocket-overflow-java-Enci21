@@ -22,7 +22,7 @@ public class SpellsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         commonRoomViewModel =
                 ViewModelProviders.of(this).get(SpellsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_commonroom, container, false);
+        View root = inflater.inflate(R.layout.fragment_spells, container, false);
         final TextView textView = root.findViewById(R.id.text_slideshow);
         commonRoomViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override

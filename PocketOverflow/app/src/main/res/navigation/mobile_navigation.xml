@@ -17,14 +17,14 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.pocketoverflow.signIn.ui.commonRoom.CommonRoomFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_my_things" />
-
-    <fragment
         android:id="@+id/nav_commonroom"
-        android:name="com.example.pocketoverflow.signIn.ui.spells.SpellsFragment"
+        android:name="com.example.pocketoverflow.signIn.ui.commonRoom.CommonRoomFragment"
         android:label="@string/common_room"
         tools:layout="@layout/fragment_commonroom" />
+
+    <fragment
+        android:id="@+id/nav_spells"
+        android:name="com.example.pocketoverflow.signIn.ui.spells.SpellsFragment"
+        android:label="@string/spells"
+        tools:layout="@layout/fragment_spells" />
 </navigation>
