@@ -1,7 +1,5 @@
-package com.example.pocketoverflow.signIn.ui.commonRoom;
+package com.example.pocketoverflow.signIn.ui.spells;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,19 +14,16 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.pocketoverflow.R;
 
+public class SpellsFragment extends Fragment {
 
-public class CommonRoomFragment extends Fragment {
-
-    private CommonRoomViewModel commonRoomViewModel;
+    private SpellsViewModel commonRoomViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         commonRoomViewModel =
-                ViewModelProviders.of(this).get(CommonRoomViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_my_things, container, false);
-        final TextView textView = root.findViewById(R.id.text_gallery);
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        long userId = sharedPref.getLong("userId", 0L);
+                ViewModelProviders.of(this).get(SpellsViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_commonroom, container, false);
+        final TextView textView = root.findViewById(R.id.text_slideshow);
         commonRoomViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

@@ -10,7 +10,7 @@ public class CommonRoomViewModel extends ViewModel {
 
     public CommonRoomViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is slideshow fragment");
+        mText.setValue("This is gallery fragment");
     }
 
     public LiveData<String> getText() {
