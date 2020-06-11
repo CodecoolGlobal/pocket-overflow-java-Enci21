@@ -58,5 +58,6 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
 
     public void setUser(User user) {
         this.user = user;
+
     }
 }

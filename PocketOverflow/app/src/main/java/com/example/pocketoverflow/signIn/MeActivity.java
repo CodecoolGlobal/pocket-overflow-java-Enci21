@@ -1,6 +1,8 @@
 package com.example.pocketoverflow.signIn;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.TextView;
@@ -23,11 +25,14 @@ import butterknife.ButterKnife;
 public class MeActivity extends AppCompatActivity {
 
     public static final String EXTRA_USER = "com.codecool.pocketoverflow.user";
+
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+
     TextView nameText;
     TextView houseText;
     User user;
+
     private AppBarConfiguration mAppBarConfiguration;
 
     @Override
@@ -54,11 +59,16 @@ public class MeActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         user = intent.getParcelableExtra(SignInActivity.EXTRA_USER);
-        /*Bundle bundle = new Bundle();
-        bundle.putParcelable(EXTRA_USER, user);
-        HomeFragment homeFragment = new HomeFragment();
-        homeFragment.setArguments(bundle);*/
 
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("userName", user.getUsername());
+        editor.putString("house", user.getHouse());
+        editor.putString("patronus", user.getPatronus());
+        editor.putString("animagus", user.getAnimagus());
+        editor.putBoolean("DA", user.isDumbledoresArmy());
+        editor.putBoolean("OF", user.isOrderOfThePhoenix());
+        editor.commit();
 
         nameText = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nameText);
         houseText = (TextView) navigationView.getHeaderView(0).findViewById(R.id.houseText);
