@@ -10,16 +10,20 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pocketoverflow.R;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -48,13 +52,20 @@ public class CommonRoomFragment extends Fragment implements CommonRoomContract.V
     @BindView(R.id.school)
     TextView school;
 
+    @BindView(R.id.membersRecyclerView)
+    RecyclerView membersRecyclerView;
+
+    JsonPlaceHolderApi jsonPlaceHolderApi;
     private CommonRoomPresenter commonRoomPresenter;
+    String apiKey;
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private MemberAdapter adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_commonroom, container, false);
         ButterKnife.bind(this, root);
-        String apiKey = "$2a$10$lxDvwgZJ/JrK2rKd9uNFzOQcCXds1WyJkvMU/dnyIbdvVSNrKjTjy";
+        apiKey = "$2a$10$lxDvwgZJ/JrK2rKd9uNFzOQcCXds1WyJkvMU/dnyIbdvVSNrKjTjy";
 
         commonRoomPresenter = new CommonRoomPresenter();
 
@@ -65,33 +76,45 @@ public class CommonRoomFragment extends Fragment implements CommonRoomContract.V
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://www.potterapi.com/")
-                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
-        Call<List<House>> call = jsonPlaceHolderApi.getHouseById("5a05e2b252f721a3cf2ea33f", apiKey);
-        call.enqueue(new Callback<List<House>>() {
-            @Override
-            public void onResponse(Call<List<House>> call, Response<List<House>> response) {
-                if (!response.isSuccessful()) {
-                    System.out.println(response.code());
-                }
-                headOfHouse.setText(response.body().get(0).getHeadOfHouse());
-                name.setText(response.body().get(0).getName());
-                houseGhost.setText(response.body().get(0).getHouseGhost());
-                school.setText(response.body().get(0).getSchool());
-                founder.setText(response.body().get(0).getFounder());
-                mascot.setText(response.body().get(0).getMascot());
-            }
 
-            @Override
-            public void onFailure(Call<List<House>> call, Throwable t) {
-                System.out.println(t);
-            }
-
-        });
+        jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+        fetchData();
 
 
         return root;
+    }
+
+    private void fetchData() {
+        compositeDisposable.add(jsonPlaceHolderApi.getHouseById("5a05e2b252f721a3cf2ea33f", apiKey)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<House>>() {
+                    @Override
+                    public void accept(List<House> houses) {
+                        displayData(houses.get(0));
+                    }
+                }));
+    }
+
+    private void displayData(House house) {
+        adapter = new MemberAdapter(house.getMembers());
+        membersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        membersRecyclerView.setAdapter(adapter);
+
+        headOfHouse.setText(house.getHeadOfHouse());
+        name.setText(house.getName());
+        houseGhost.setText(house.getHouseGhost());
+        school.setText(house.getSchool());
+        founder.setText(house.getFounder());
+        mascot.setText(house.getMascot());
+    }
+
+    @Override
+    public void onStop() {
+        compositeDisposable.clear();
+        super.onStop();
     }
 }
