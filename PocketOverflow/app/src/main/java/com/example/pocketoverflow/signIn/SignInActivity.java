@@ -2,6 +2,7 @@ package com.example.pocketoverflow.signIn;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +27,7 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
     Button alohomora;
     SignInPresenter presenter;
     User user;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +39,13 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
     }
 
     public void signIn(View view) {
-        String username = nameEditText.getText().toString();
+        username = nameEditText.getText().toString();
         presenter.getUserByUsername(username);
-        //runnable spinner kb 1000 milisec
         if (user == null) {
             Toast.makeText(this, "Something went wrong, please try again later!", Toast.LENGTH_SHORT).show();
         } else {
             if (user.getPassword().equals(passwordEditText.getText().toString())) {
-                Toast.makeText(this, "Welcome " + username + "!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(SignInActivity.this, MeActivity.class);
-                intent.putExtra(EXTRA_USER, user);
-                startActivity(intent);
+                showLoading();
             } else {
                 Toast.makeText(this, "Username or password is wrong!", Toast.LENGTH_SHORT).show();
                 nameEditText.setHighlightColor(getResources().getColor(R.color.colorRed));
@@ -59,5 +57,16 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
     public void setUser(User user) {
         this.user = user;
 
+    }
+
+    public void showLoading() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(SignInActivity.this, MeActivity.class);
+                intent.putExtra(EXTRA_USER, user);
+                startActivity(intent);
+            }
+        }, 2000);
     }
 }

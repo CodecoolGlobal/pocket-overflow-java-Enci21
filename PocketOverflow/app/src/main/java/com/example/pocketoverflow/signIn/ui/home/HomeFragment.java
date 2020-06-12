@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class HomeFragment extends Fragment implements HomeContract.View {
+public class HomeFragment extends Fragment {
 
     @BindView(R.id.patronusTextView)
     TextView patronusTextView;
@@ -32,14 +32,11 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     ImageView dumbledoresArmy;
     @BindView(R.id.orderOfThePhoenix)
     ImageView orderOfThePhoenix;
-    private HomePresenter homePresenter;
     private View view;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
-
-        homePresenter = new HomePresenter(this);
 
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         patronusTextView.setText(sharedPref.getString("patronus", ""));

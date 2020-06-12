@@ -50,15 +50,6 @@ public class SortingHatActivity extends AppCompatActivity implements SortingHatC
 
     }
 
-   /* public void showLoading(){
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                view.showDestinations(destinations);
-                view.emptyDatabaseMessageShow();
-            }
-        }, 2000);
-    }*/
 
     public void setHouse() {
         OkHttpClient client = new OkHttpClient();
@@ -75,7 +66,7 @@ public class SortingHatActivity extends AppCompatActivity implements SortingHatC
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    String houseString = response.body().string();
+                    String houseString = response.body().string().replace("\"", "");
 
                     SortingHatActivity.this.runOnUiThread(new Runnable() {
                         @Override

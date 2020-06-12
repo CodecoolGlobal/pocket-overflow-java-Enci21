@@ -28,7 +28,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class CommonRoomFragment extends Fragment implements CommonRoomContract.View {
+public class CommonRoomFragment extends Fragment {
 
     String house;
     String userName;
@@ -56,8 +56,8 @@ public class CommonRoomFragment extends Fragment implements CommonRoomContract.V
     RecyclerView membersRecyclerView;
 
     JsonPlaceHolderApi jsonPlaceHolderApi;
-    private CommonRoomPresenter commonRoomPresenter;
     String apiKey;
+    String houseId;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     private MemberAdapter adapter;
 
@@ -67,11 +67,24 @@ public class CommonRoomFragment extends Fragment implements CommonRoomContract.V
         ButterKnife.bind(this, root);
         apiKey = "$2a$10$lxDvwgZJ/JrK2rKd9uNFzOQcCXds1WyJkvMU/dnyIbdvVSNrKjTjy";
 
-        commonRoomPresenter = new CommonRoomPresenter();
-
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         house = sharedPref.getString("house", "");
         userName = sharedPref.getString("userName", "");
+
+        switch (house) {
+            case "Gryffindor":
+                houseId = "5a05e2b252f721a3cf2ea33f";
+                break;
+            case "Ravenclaw":
+                houseId = "5a05da69d45bd0a11bd5e06f";
+                break;
+            case "Hufflepuff":
+                houseId = "5a05dc58d45bd0a11bd5e070";
+                break;
+            case "Slytherin":
+                houseId = "5a05dc8cd45bd0a11bd5e071";
+                break;
+        }
 
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -88,7 +101,7 @@ public class CommonRoomFragment extends Fragment implements CommonRoomContract.V
     }
 
     private void fetchData() {
-        compositeDisposable.add(jsonPlaceHolderApi.getHouseById("5a05e2b252f721a3cf2ea33f", apiKey)
+        compositeDisposable.add(jsonPlaceHolderApi.getHouseById(houseId, apiKey)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<House>>() {
