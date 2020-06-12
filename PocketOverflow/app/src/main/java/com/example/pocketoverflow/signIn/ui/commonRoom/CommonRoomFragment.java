@@ -85,6 +85,21 @@ public class CommonRoomFragment extends Fragment {
                 break;
         }
 
+        switch (house) {
+            case "Gryffindor":
+                houseId = "5a05e2b252f721a3cf2ea33f";
+                break;
+            case "Ravenclaw":
+                houseId = "5a05da69d45bd0a11bd5e06f";
+                break;
+            case "Hufflepuff":
+                houseId = "5a05dc58d45bd0a11bd5e070";
+                break;
+            case "Slytherin":
+                houseId = "5a05dc8cd45bd0a11bd5e071";
+                break;
+        }
+
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://www.potterapi.com/")
