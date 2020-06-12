@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pocketoverflow.R;
+import com.example.pocketoverflow.signIn.ui.JsonPlaceHolderApi;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.List;
@@ -69,8 +70,6 @@ public class CommonRoomFragment extends Fragment {
 
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         house = sharedPref.getString("house", "");
-        userName = sharedPref.getString("userName", "");
-
         switch (house) {
             case "Gryffindor":
                 houseId = "5a05e2b252f721a3cf2ea33f";
@@ -92,10 +91,8 @@ public class CommonRoomFragment extends Fragment {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-
         jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
         fetchData();
-
 
         return root;
     }
