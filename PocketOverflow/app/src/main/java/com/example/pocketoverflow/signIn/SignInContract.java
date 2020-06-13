@@ -11,6 +11,10 @@ public interface SignInContract {
     interface SignInView extends BaseView {
         void signIn(View view);
 
+        void showLoading();
+
+        void hideLoading();
+
         void setUser(User user);
     }
 

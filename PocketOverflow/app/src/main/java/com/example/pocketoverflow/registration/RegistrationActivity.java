@@ -63,6 +63,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         Intent intent = getIntent();
         myHouse.setText(intent.getStringExtra(SortingHatActivity.EXTRA_HOUSE));
 
+
         String[] options = {"Cat", "Dog", "Lion", "Squirrel", "Otter", "Tiger", "Pig"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, options);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

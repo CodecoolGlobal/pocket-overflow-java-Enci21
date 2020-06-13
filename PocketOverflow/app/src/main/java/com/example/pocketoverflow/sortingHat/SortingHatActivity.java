@@ -2,8 +2,12 @@ package com.example.pocketoverflow.sortingHat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +28,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class SortingHatActivity extends AppCompatActivity implements SortingHatContract.View {
+public class SortingHatActivity extends AppCompatActivity {
 
     @BindView(R.id.house)
     TextView house;
@@ -33,12 +37,24 @@ public class SortingHatActivity extends AppCompatActivity implements SortingHatC
     @BindView(R.id.enroll)
     Button enroll;
 
+    @BindView(R.id.sortingHatImage)
+    ImageView sortingHatImage;
+
+    @BindView(R.id.textViewHat)
+    TextView hatSaid;
+
+    @BindView(R.id.loading)
+    ProgressBar loading;
+
+    @BindView(R.id.frameGrayoverlay)
+    FrameLayout frameLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sorting_hat);
         ButterKnife.bind(this);
-        setHouse();
+
         enroll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,6 +64,14 @@ public class SortingHatActivity extends AppCompatActivity implements SortingHatC
             }
         });
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showLoading();
+                setHouse();
+                hideLoading();
+            }
+        }, 2000);
     }
 
 
@@ -82,5 +106,24 @@ public class SortingHatActivity extends AppCompatActivity implements SortingHatC
     public void register(View view) {
 
         Toast.makeText(this, "You have been accepted at Hogwarts School of Witchcraft and Wizardry.", Toast.LENGTH_SHORT).show();
+    }
+
+
+    public void showLoading() {
+        enroll.setVisibility(View.INVISIBLE);
+        house.setVisibility(View.INVISIBLE);
+        frameLayout.setVisibility(View.VISIBLE);
+        loading.setVisibility(View.VISIBLE);
+        hatSaid.setVisibility(View.VISIBLE);
+        sortingHatImage.setVisibility(View.VISIBLE);
+    }
+
+    public void hideLoading() {
+        enroll.setVisibility(View.VISIBLE);
+        house.setVisibility(View.VISIBLE);
+        frameLayout.setVisibility(View.INVISIBLE);
+        loading.setVisibility(View.INVISIBLE);
+        hatSaid.setVisibility(View.INVISIBLE);
+        sortingHatImage.setVisibility(View.VISIBLE);
     }
 }

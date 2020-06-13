@@ -2,10 +2,11 @@ package com.example.pocketoverflow.signIn;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,12 +20,22 @@ import butterknife.ButterKnife;
 public class SignInActivity extends AppCompatActivity implements SignInContract.SignInView {
 
     public static final String EXTRA_USER = "com.codecool.pocketoverflow.user";
+
     @BindView(R.id.editTextName)
     EditText nameEditText;
+
     @BindView(R.id.editTextPassword)
     EditText passwordEditText;
+
     @BindView(R.id.alohomoraButton)
     Button alohomora;
+
+    @BindView(R.id.frameGrayoverlay)
+    FrameLayout layout;
+
+    @BindView(R.id.loading)
+    ProgressBar progressBar;
+
     SignInPresenter presenter;
     User user;
     String username;
@@ -41,12 +52,19 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
     public void signIn(View view) {
         username = nameEditText.getText().toString();
         presenter.getUserByUsername(username);
+        showLoading();
+
         if (user == null) {
+            hideLoading();
             Toast.makeText(this, "Something went wrong, please try again later!", Toast.LENGTH_SHORT).show();
         } else {
             if (user.getPassword().equals(passwordEditText.getText().toString())) {
-                showLoading();
+                hideLoading();
+                Intent intent = new Intent(SignInActivity.this, MeActivity.class);
+                intent.putExtra(EXTRA_USER, user);
+                startActivity(intent);
             } else {
+                hideLoading();
                 Toast.makeText(this, "Username or password is wrong!", Toast.LENGTH_SHORT).show();
                 nameEditText.setHighlightColor(getResources().getColor(R.color.colorRed));
                 passwordEditText.setHighlightColor(getResources().getColor(R.color.colorRed));
@@ -56,17 +74,15 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
 
     public void setUser(User user) {
         this.user = user;
-
     }
 
     public void showLoading() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(SignInActivity.this, MeActivity.class);
-                intent.putExtra(EXTRA_USER, user);
-                startActivity(intent);
-            }
-        }, 2000);
+        layout.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideLoading() {
+        layout.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 }

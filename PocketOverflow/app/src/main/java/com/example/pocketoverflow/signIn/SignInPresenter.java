@@ -2,6 +2,7 @@ package com.example.pocketoverflow.signIn;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.os.Handler;
 
 import com.example.pocketoverflow.roomDB.User;
 import com.example.pocketoverflow.roomDB.UserRepository;
@@ -30,6 +31,12 @@ public class SignInPresenter implements SignInContract.SignInPresenter {
         @Override
         protected void onPostExecute(User user) {
             view.setUser(user);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    view.showLoading();
+                }
+            }, 2000);
         }
     }
 }

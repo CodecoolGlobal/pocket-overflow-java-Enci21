@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,6 +45,7 @@ public class MeActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -59,6 +61,20 @@ public class MeActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         user = intent.getParcelableExtra(SignInActivity.EXTRA_USER);
+
+
+        ImageView logoImageView = navigationView.getHeaderView(0).findViewById(R.id.imageView);
+        if (user.getHouse().replace("\"", "").equals("Gryffindor")) {
+            navigationView.getHeaderView(0).setBackgroundResource(R.drawable.gryffindor_side_nav);
+            logoImageView.setImageResource(R.drawable.gryffindor_logo);
+
+        } else if (user.getHouse().replace("\"", "").equals("Hufflepuff")) {
+            navigationView.getHeaderView(0).setBackgroundResource(R.drawable.huffle_side_nav);
+            logoImageView.setImageResource(R.drawable.hufflepuff_logo);
+        } else if (user.getHouse().replace("\"", "").equals("Ravenclaw")) {
+            navigationView.getHeaderView(0).setBackgroundResource(R.drawable.ravenclaw_side_nav);
+            logoImageView.setImageResource(R.drawable.ravenclaw_logo);
+        }
 
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();

@@ -4,4 +4,20 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="colorRed">#F44336</color>
+    <color name="textBlack">#121110</color>
+    <color name="overlayColor">#A4A2A2</color>
+
+    <color name="raven_blue_dark">#232F71</color>
+    <color name="raven_blue_med">#3F51B5</color>
+    <color name="raven_blue_light">#515987</color>
+
+    <color name="huffle_blue_dark">#E9C40D</color>
+    <color name="huffle_blue_med">#D3C549</color>
+    <color name="huffle_blue_light">#D0C98D</color>
+
+    <color name="griff_blue_dark">#E91C0D</color>
+    <color name="griff_blue_med">#C14A42</color>
+    <color name="griff_blue_light">#D08D8D</color>
+
+
 </resources>
