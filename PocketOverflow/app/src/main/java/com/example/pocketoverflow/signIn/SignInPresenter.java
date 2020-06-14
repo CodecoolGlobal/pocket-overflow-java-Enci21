@@ -2,7 +2,6 @@ package com.example.pocketoverflow.signIn;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.os.Handler;
 
 import com.example.pocketoverflow.roomDB.User;
 import com.example.pocketoverflow.roomDB.UserRepository;
@@ -25,18 +24,10 @@ public class SignInPresenter implements SignInContract.SignInPresenter {
 
         @Override
         protected User doInBackground(String... strings) {
-            return userRepository.getUserByUsername(strings[0]);
+            User user = userRepository.getUserByUsername(strings[0]);
+            view.setUser(user);
+            return user;
         }
 
-        @Override
-        protected void onPostExecute(User user) {
-            view.setUser(user);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    view.showLoading();
-                }
-            }, 2000);
-        }
     }
 }

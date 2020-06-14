@@ -2,6 +2,7 @@ package com.example.pocketoverflow.signIn;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,26 +51,32 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
     }
 
     public void signIn(View view) {
+        showLoading();
         username = nameEditText.getText().toString();
         presenter.getUserByUsername(username);
-        showLoading();
 
-        if (user == null) {
-            hideLoading();
-            Toast.makeText(this, "Something went wrong, please try again later!", Toast.LENGTH_SHORT).show();
-        } else {
-            if (user.getPassword().equals(passwordEditText.getText().toString())) {
-                hideLoading();
-                Intent intent = new Intent(SignInActivity.this, MeActivity.class);
-                intent.putExtra(EXTRA_USER, user);
-                startActivity(intent);
-            } else {
-                hideLoading();
-                Toast.makeText(this, "Username or password is wrong!", Toast.LENGTH_SHORT).show();
-                nameEditText.setHighlightColor(getResources().getColor(R.color.colorRed));
-                passwordEditText.setHighlightColor(getResources().getColor(R.color.colorRed));
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                if (user == null) {
+                    hideLoading();
+                    Toast.makeText(SignInActivity.this, "Something went wrong, please try again later!", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (user.getPassword().equals(passwordEditText.getText().toString())) {
+                        hideLoading();
+                        Intent intent = new Intent(SignInActivity.this, MeActivity.class);
+                        intent.putExtra(EXTRA_USER, user);
+                        startActivity(intent);
+                    } else {
+                        hideLoading();
+                        Toast.makeText(SignInActivity.this, "Username or password is wrong!", Toast.LENGTH_SHORT).show();
+                        nameEditText.setHighlightColor(getResources().getColor(R.color.colorRed));
+                        passwordEditText.setHighlightColor(getResources().getColor(R.color.colorRed));
+                    }
+                }
             }
-        }
+        }, 2000);
     }
 
     public void setUser(User user) {

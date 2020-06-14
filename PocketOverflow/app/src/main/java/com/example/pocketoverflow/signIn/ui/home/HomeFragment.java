@@ -26,6 +26,9 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.myHouse)
     TextView house;
 
+    @BindView(R.id.userName)
+    TextView userName;
+
     @BindView(R.id.animagus)
     TextView animagus;
 
@@ -43,6 +46,7 @@ public class HomeFragment extends Fragment {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
 
         patronusTextView.setText(sharedPref.getString("patronus", ""));
+        userName.setText(sharedPref.getString("userName", ""));
         house.setText(sharedPref.getString("house", "").replace("\"", ""));
         animagus.setText(animagus.getText() + sharedPref.getString("animagus", ""));
         if (sharedPref.getBoolean("DA", false)) {

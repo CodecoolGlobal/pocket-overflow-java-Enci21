@@ -89,7 +89,7 @@ public class MeActivity extends AppCompatActivity {
         nameText = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nameText);
         houseText = (TextView) navigationView.getHeaderView(0).findViewById(R.id.houseText);
         nameText.setText(user.getUsername());
-        houseText.setText(user.getHouse());
+        houseText.setText(user.getHouse().replace("\"", ""));
     }
 
     @Override

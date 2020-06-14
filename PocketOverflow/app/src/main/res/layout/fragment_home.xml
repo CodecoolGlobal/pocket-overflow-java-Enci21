@@ -7,15 +7,28 @@
     tools:context=".signIn.ui.home.HomeFragment">
 
     <TextView
-        android:id="@+id/myHouse"
+        android:id="@+id/userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:textSize="25dp"
         android:textStyle="bold"
+        android:textColor="@color/textBlack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/myHouse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:textColor="@color/textBlack"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userName" />
 
     <TextView
         android:id="@+id/patronusText"
@@ -24,6 +37,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:textColor="@color/textBlack"
         android:text="@string/patronus"
         app:layout_constraintStart_toStartOf="parent"
         android:textSize="16sp"
@@ -35,6 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:textSize="16sp"
+        android:textColor="@color/textBlack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/patronusText"
         app:layout_constraintTop_toBottomOf="@id/myHouse" />
@@ -44,18 +59,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
         android:text="@string/i_m_an_animagus_i_can_transform_to"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginLeft="16dp"
+        android:textColor="@color/textBlack"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/patronusTextView" />
 
     <ImageView
         android:id="@+id/dumbledoresArmy"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginStart="64dp"
         android:layout_marginLeft="64dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:src="@drawable/dumbledores_army_1"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +83,7 @@
         android:id="@+id/orderOfThePhoenix"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="64dp"
         android:layout_marginRight="64dp"
         android:src="@drawable/logo_phoenix"
