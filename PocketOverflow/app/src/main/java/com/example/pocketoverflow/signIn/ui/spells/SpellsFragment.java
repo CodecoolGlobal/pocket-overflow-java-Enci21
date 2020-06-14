@@ -1,5 +1,7 @@
 package com.example.pocketoverflow.signIn.ui.spells;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +33,7 @@ public class SpellsFragment extends Fragment {
     String apiKey;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     SpellAdapter adapter;
+    String house;
 
     @BindView(R.id.recyclerViewSpells)
     RecyclerView recyclerViewSpells;
@@ -41,6 +44,8 @@ public class SpellsFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_spells, container, false);
         ButterKnife.bind(this, root);
         apiKey = "$2a$10$lxDvwgZJ/JrK2rKd9uNFzOQcCXds1WyJkvMU/dnyIbdvVSNrKjTjy"; //environment variable?
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://www.potterapi.com/")
@@ -49,6 +54,18 @@ public class SpellsFragment extends Fragment {
 
         jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
         fetchData();
+
+        house = sharedPref.getString("house", "").replace("\"", "");
+
+        if (house.equals("Gryffindor")) {
+            root.setBackgroundResource(R.drawable.gryffindor_side_nav);
+        } else if (house.equals("Hufflepuff")) {
+            root.setBackgroundResource(R.drawable.huffle_side_nav);
+        } else if (house.equals("Ravenclaw")) {
+            root.setBackgroundResource(R.drawable.ravenclaw_side_nav);
+        } else if (house.equals("Slytherin")) {
+            root.setBackgroundResource(R.drawable.slytherin_side_nav);
+        }
 
         return root;
     }

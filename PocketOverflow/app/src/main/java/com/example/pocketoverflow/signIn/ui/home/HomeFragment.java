@@ -22,31 +22,44 @@ public class HomeFragment extends Fragment {
 
     @BindView(R.id.patronusTextView)
     TextView patronusTextView;
+
     @BindView(R.id.myHouse)
     TextView house;
-    @BindView(R.id.wand)
-    TextView wand;
+
     @BindView(R.id.animagus)
     TextView animagus;
+
     @BindView(R.id.dumbledoresArmy)
     ImageView dumbledoresArmy;
+
     @BindView(R.id.orderOfThePhoenix)
     ImageView orderOfThePhoenix;
+
     private View view;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
-
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+
         patronusTextView.setText(sharedPref.getString("patronus", ""));
-        house.setText(sharedPref.getString("house", ""));
-        animagus.setText(sharedPref.getString("animagus", ""));
+        house.setText(sharedPref.getString("house", "").replace("\"", ""));
+        animagus.setText(animagus.getText() + sharedPref.getString("animagus", ""));
         if (sharedPref.getBoolean("DA", false)) {
             dumbledoresArmy.setVisibility(View.VISIBLE);
         }
         if (sharedPref.getBoolean("OF", false)) {
             orderOfThePhoenix.setVisibility(View.VISIBLE);
+        }
+
+        if (house.getText().equals("Gryffindor")) {
+            view.setBackgroundResource(R.drawable.gryffindor_side_nav);
+        } else if (house.getText().equals("Hufflepuff")) {
+            view.setBackgroundResource(R.drawable.huffle_side_nav);
+        } else if (house.getText().equals("Ravenclaw")) {
+            view.setBackgroundResource(R.drawable.ravenclaw_side_nav);
+        } else if (house.getText().equals("Slytherin")) {
+            view.setBackgroundResource(R.drawable.slytherin_side_nav);
         }
         return view;
     }
