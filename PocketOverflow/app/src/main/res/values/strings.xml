@@ -30,4 +30,10 @@
     <string name="enroll_in_the_hogwarts">Enroll in the Hogwarts!</string>
     <string name="go_to_school">Go to school!</string>
     <string name="where_to_put_you">Where should I put you?</string>
+    <string name="whom_we_are_proud_of">Whom we are proud of</string>
+    <string name="head_of_house">Head of house:</string>
+    <string name="house_ghost">House ghost:</string>
+    <string name="mascot">Mascot:</string>
+    <string name="school">School:</string>
+    <string name="founder">Founder:</string>
 </resources>

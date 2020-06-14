@@ -61,10 +61,9 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         presenter = new RegistrationPresenter(this, getApplication());
 
         Intent intent = getIntent();
-        myHouse.setText(intent.getStringExtra(SortingHatActivity.EXTRA_HOUSE));
+        myHouse.setText(intent.getStringExtra(SortingHatActivity.EXTRA_HOUSE).replace("\"", ""));
 
-
-        String[] options = {"Cat", "Dog", "Lion", "Squirrel", "Otter", "Tiger", "Pig"};
+        String[] options = {"Cat", "Dog", "Lion", "Squirrel", "Otter", "Tiger", "Pig", "Rabbit", "Roe", "Deer"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, options);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         patronusDropdown.setAdapter(adapter);

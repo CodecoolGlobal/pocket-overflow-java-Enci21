@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,7 +33,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class CommonRoomFragment extends Fragment {
 
     String house;
-    String userName;
     View root;
 
     @BindView(R.id.name)
@@ -56,6 +56,9 @@ public class CommonRoomFragment extends Fragment {
     @BindView(R.id.membersRecyclerView)
     RecyclerView membersRecyclerView;
 
+    @BindView(R.id.logoBack)
+    ImageView logo;
+
     JsonPlaceHolderApi jsonPlaceHolderApi;
     String apiKey;
     String houseId;
@@ -69,20 +72,20 @@ public class CommonRoomFragment extends Fragment {
         apiKey = "$2a$10$lxDvwgZJ/JrK2rKd9uNFzOQcCXds1WyJkvMU/dnyIbdvVSNrKjTjy";
 
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        house = sharedPref.getString("house", "");
-        switch (house) {
-            case "Gryffindor":
-                houseId = "5a05e2b252f721a3cf2ea33f";
-                break;
-            case "Ravenclaw":
-                houseId = "5a05da69d45bd0a11bd5e06f";
-                break;
-            case "Hufflepuff":
-                houseId = "5a05dc58d45bd0a11bd5e070";
-                break;
-            case "Slytherin":
-                houseId = "5a05dc8cd45bd0a11bd5e071";
-                break;
+        house = sharedPref.getString("house", "").replace("\"", "");
+
+        if (house.equals("Gryffindor")) {
+            root.setBackgroundResource(R.drawable.gryffindor_side_nav);
+            logo.setImageResource(R.drawable.gryffindor_logo);
+        } else if (house.equals("Hufflepuff")) {
+            root.setBackgroundResource(R.drawable.huffle_side_nav);
+            logo.setImageResource(R.drawable.hufflepuff_logo);
+        } else if (house.equals("Ravenclaw")) {
+            root.setBackgroundResource(R.drawable.ravenclaw_side_nav);
+            logo.setImageResource(R.drawable.ravenclaw_logo);
+        } else if (house.equals("Slytherin")) {
+            root.setBackgroundResource(R.drawable.slytherin_side_nav);
+            logo.setImageResource(R.drawable.slytherin_logo);
         }
 
         switch (house) {
@@ -99,7 +102,6 @@ public class CommonRoomFragment extends Fragment {
                 houseId = "5a05dc8cd45bd0a11bd5e071";
                 break;
         }
-
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://www.potterapi.com/")
