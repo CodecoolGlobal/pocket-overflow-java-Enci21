@@ -46,7 +46,6 @@ public class SpellsFragment extends Fragment {
         apiKey = "$2a$10$lxDvwgZJ/JrK2rKd9uNFzOQcCXds1WyJkvMU/dnyIbdvVSNrKjTjy"; //environment variable?
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
 
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://www.potterapi.com/")
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create())

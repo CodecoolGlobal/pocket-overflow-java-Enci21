@@ -14,7 +14,7 @@
         <activity
             android:name=".signIn.MeActivity"
             android:label="@string/title_activity_me"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".sortingHat.SortingHatActivity" />
         <activity android:name=".registration.RegistrationActivity" />
         <activity android:name=".signIn.SignInActivity" />

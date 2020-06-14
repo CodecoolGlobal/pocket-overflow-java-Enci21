@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.pocketoverflow.MainActivity;
 import com.example.pocketoverflow.R;
 import com.example.pocketoverflow.roomDB.User;
 import com.google.android.material.navigation.NavigationView;
@@ -33,7 +35,7 @@ public class MeActivity extends AppCompatActivity {
     TextView nameText;
     TextView houseText;
     User user;
-
+    SharedPreferences sharedPref;
     private AppBarConfiguration mAppBarConfiguration;
 
     @Override
@@ -76,7 +78,7 @@ public class MeActivity extends AppCompatActivity {
             logoImageView.setImageResource(R.drawable.ravenclaw_logo);
         }
 
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("userName", user.getUsername());
         editor.putString("house", user.getHouse());
@@ -104,5 +106,11 @@ public class MeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public void logOut(MenuItem item) {
+        sharedPref.edit().clear().commit();
+        Intent intent = new Intent(MeActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }
