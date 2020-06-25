@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pocketoverflow.R;
@@ -56,14 +57,19 @@ public class SortingHatActivity extends AppCompatActivity implements SortingHatC
                 startActivity(intent);
             }
         });
+        if (savedInstanceState == null) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    showLoading();
+                    hideLoading();
+                }
+            }, 2000);
+        } else {
+            hideLoading();
+            house.setText(savedInstanceState.getString("HOUSE"));
+        }
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                showLoading();
-                hideLoading();
-            }
-        }, 2000);
     }
 
 
@@ -92,5 +98,11 @@ public class SortingHatActivity extends AppCompatActivity implements SortingHatC
         loading.setVisibility(View.INVISIBLE);
         hatSaid.setVisibility(View.INVISIBLE);
         sortingHatImage.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("HOUSE", house.getText().toString());
     }
 }
