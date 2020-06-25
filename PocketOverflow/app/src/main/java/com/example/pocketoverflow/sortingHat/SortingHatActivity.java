@@ -16,19 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.pocketoverflow.R;
 import com.example.pocketoverflow.registration.RegistrationActivity;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
-public class SortingHatActivity extends AppCompatActivity {
+public class SortingHatActivity extends AppCompatActivity implements SortingHatContract.SortingHatView {
 
     @BindView(R.id.house)
     TextView house;
@@ -48,12 +39,14 @@ public class SortingHatActivity extends AppCompatActivity {
 
     @BindView(R.id.frameGrayoverlay)
     FrameLayout frameLayout;
+    SortingHatPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sorting_hat);
         ButterKnife.bind(this);
+        presenter = new SortingHatPresenter(this, getApplication());
 
         enroll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,46 +61,20 @@ public class SortingHatActivity extends AppCompatActivity {
             @Override
             public void run() {
                 showLoading();
-                setHouse();
                 hideLoading();
             }
         }, 2000);
     }
 
 
-    public void setHouse() {
-        OkHttpClient client = new OkHttpClient();
-        String url = "https://www.potterapi.com/v1/sortingHat";
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String houseString = response.body().string().replace("\"", "");
-
-                    SortingHatActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            house.setText(houseString);
-                        }
-                    });
-                }
-            }
-        });
-    }
-
     public void register(View view) {
-
         Toast.makeText(this, "You have been accepted at Hogwarts School of Witchcraft and Wizardry.", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void setHouse(String house) {
+        this.house.setText(house);
+    }
 
     public void showLoading() {
         enroll.setVisibility(View.INVISIBLE);
