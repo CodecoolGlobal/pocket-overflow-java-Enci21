@@ -42,7 +42,6 @@ public class User implements Parcelable {
     @NonNull
     Long id;
 
-    private String wand;
     @NonNull
     private String patronus;
     @NonNull
@@ -59,7 +58,6 @@ public class User implements Parcelable {
         password = parcel.readString();
         house = parcel.readString();
         patronus = parcel.readString();
-        wand = parcel.readString();
         animagus = parcel.readString();
         dumbledoresArmy = parcel.readBoolean();
         orderOfThePhoenix = parcel.readBoolean();
@@ -89,7 +87,6 @@ public class User implements Parcelable {
         dest.writeString(password);
         dest.writeString(house);
         dest.writeString(patronus);
-        dest.writeString(wand);
         dest.writeString(animagus);
         dest.writeBoolean(dumbledoresArmy);
         dest.writeBoolean(orderOfThePhoenix);
