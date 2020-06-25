@@ -18,6 +18,7 @@ import com.example.pocketoverflow.R;
 import com.example.pocketoverflow.signIn.ui.JsonPlaceHolderApi;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -62,6 +63,7 @@ public class CommonRoomFragment extends Fragment {
     JsonPlaceHolderApi jsonPlaceHolderApi;
     String apiKey;
     String houseId;
+    ArrayList<MembersItem> members = new ArrayList<>();
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     private MemberAdapter adapter;
 
@@ -71,8 +73,46 @@ public class CommonRoomFragment extends Fragment {
         ButterKnife.bind(this, root);
         apiKey = "$2a$10$lxDvwgZJ/JrK2rKd9uNFzOQcCXds1WyJkvMU/dnyIbdvVSNrKjTjy";
 
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        house = sharedPref.getString("house", "").replace("\"", "");
+        if (savedInstanceState == null) {
+            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+            house = sharedPref.getString("house", "").replace("\"", "");
+
+            switch (house) {
+                case "Gryffindor":
+                    houseId = "5a05e2b252f721a3cf2ea33f";
+                    break;
+                case "Ravenclaw":
+                    houseId = "5a05da69d45bd0a11bd5e06f";
+                    break;
+                case "Hufflepuff":
+                    houseId = "5a05dc58d45bd0a11bd5e070";
+                    break;
+                case "Slytherin":
+                    houseId = "5a05dc8cd45bd0a11bd5e071";
+                    break;
+            }
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("https://www.potterapi.com/")
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+            fetchData();
+        } else {
+            houseId = savedInstanceState.getString("HOUSEID");
+            house = savedInstanceState.getString("HOUSE");
+            headOfHouse.setText(savedInstanceState.getString("HEADOFHOUSE"));
+            name.setText(savedInstanceState.getString("NAME"));
+            houseGhost.setText(savedInstanceState.getString("HOUSEGHOST"));
+            school.setText(savedInstanceState.getString("SCHOOL"));
+            founder.setText(savedInstanceState.getString("FOUNDER"));
+            mascot.setText(savedInstanceState.getString("MASCOT"));
+            members.addAll(savedInstanceState.getParcelableArrayList("MEMBERS"));
+            adapter = new MemberAdapter(members);
+            membersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            membersRecyclerView.setAdapter(adapter);
+        }
+
 
         if (house.equals("Gryffindor")) {
             root.setBackgroundResource(R.drawable.gryffindor_side_nav);
@@ -87,30 +127,6 @@ public class CommonRoomFragment extends Fragment {
             root.setBackgroundResource(R.drawable.slytherin_side_nav);
             logo.setImageResource(R.drawable.slytherin_logo);
         }
-
-        switch (house) {
-            case "Gryffindor":
-                houseId = "5a05e2b252f721a3cf2ea33f";
-                break;
-            case "Ravenclaw":
-                houseId = "5a05da69d45bd0a11bd5e06f";
-                break;
-            case "Hufflepuff":
-                houseId = "5a05dc58d45bd0a11bd5e070";
-                break;
-            case "Slytherin":
-                houseId = "5a05dc8cd45bd0a11bd5e071";
-                break;
-        }
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://www.potterapi.com/")
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
-        fetchData();
-
         return root;
     }
 
@@ -127,7 +143,8 @@ public class CommonRoomFragment extends Fragment {
     }
 
     private void displayData(House house) {
-        adapter = new MemberAdapter(house.getMembers());
+        members = (ArrayList<MembersItem>) house.getMembers();
+        adapter = new MemberAdapter(members);
         membersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         membersRecyclerView.setAdapter(adapter);
         headOfHouse.setText(house.getHeadOfHouse());
@@ -142,5 +159,19 @@ public class CommonRoomFragment extends Fragment {
     public void onStop() {
         compositeDisposable.clear();
         super.onStop();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("HOUSEID", houseId);
+        outState.putString("HOUSE", house);
+        outState.putString("HEADOFHOUSE", headOfHouse.getText().toString());
+        outState.putString("NAME", name.getText().toString());
+        outState.putString("HOUSEGHOST", houseGhost.getText().toString());
+        outState.putString("SCHOOL", school.getText().toString());
+        outState.putString("FOUNDER", founder.getText().toString());
+        outState.putString("MASCOT", mascot.getText().toString());
+        outState.putParcelableArrayList("MEMBERS", members);
     }
 }
