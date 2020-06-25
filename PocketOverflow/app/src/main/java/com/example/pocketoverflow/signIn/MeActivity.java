@@ -27,8 +27,6 @@ import butterknife.ButterKnife;
 
 public class MeActivity extends AppCompatActivity {
 
-    public static final String EXTRA_USER = "com.codecool.pocketoverflow.user";
-
     @BindView(R.id.nav_view)
     NavigationView navigationView;
 

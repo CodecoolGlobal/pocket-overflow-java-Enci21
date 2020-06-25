@@ -130,7 +130,6 @@ public class CommonRoomFragment extends Fragment {
         adapter = new MemberAdapter(house.getMembers());
         membersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         membersRecyclerView.setAdapter(adapter);
-
         headOfHouse.setText(house.getHeadOfHouse());
         name.setText(house.getName());
         houseGhost.setText(house.getHouseGhost());

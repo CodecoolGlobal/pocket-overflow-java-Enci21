@@ -23,7 +23,6 @@ import butterknife.ButterKnife;
 
 public class RegistrationActivity extends AppCompatActivity implements RegistrationContract.View {
 
-
     @BindView(R.id.editName)
     EditText name;
 
