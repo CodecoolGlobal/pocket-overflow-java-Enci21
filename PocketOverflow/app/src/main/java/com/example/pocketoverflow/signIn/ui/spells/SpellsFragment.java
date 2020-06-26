@@ -25,18 +25,19 @@ import butterknife.ButterKnife;
 
 public class SpellsFragment extends Fragment implements SpellContract.SpellView {
 
-    SpellAdapter adapter;
-    String house;
-    SpellPresenter presenter;
+    @BindView(R.id.loading)
+    ProgressBar loading;
+    private SpellAdapter adapter;
+    private String house;
+    private SpellPresenter presenter;
+
     @BindView(R.id.frameGrayoverlay)
     FrameLayout frameLayout;
-
+    private ArrayList<Spell> spells = new ArrayList<>();
 
     @BindView(R.id.recyclerViewSpells)
     RecyclerView recyclerViewSpells;
-    @BindView(R.id.loading)
-    ProgressBar loading;
-    private ArrayList<Spell> spells = new ArrayList<>();
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
