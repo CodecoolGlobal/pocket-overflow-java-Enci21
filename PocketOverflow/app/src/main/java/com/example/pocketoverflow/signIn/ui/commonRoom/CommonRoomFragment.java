@@ -152,16 +152,6 @@ public class CommonRoomFragment extends Fragment implements CommonRoomContract.C
     }
 
     @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
     public String getHouseId() {
         return houseId;
     }

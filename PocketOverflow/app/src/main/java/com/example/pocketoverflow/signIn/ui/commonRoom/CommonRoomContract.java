@@ -7,10 +7,6 @@ public interface CommonRoomContract {
 
     interface CommonRoomView extends BaseView {
 
-        void showLoading();
-
-        void hideLoading();
-
         String getHouseId();
 
         void displayData(House house);

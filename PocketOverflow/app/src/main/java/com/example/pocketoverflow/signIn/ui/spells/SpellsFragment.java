@@ -87,14 +87,12 @@ public class SpellsFragment extends Fragment implements SpellContract.SpellView 
         recyclerViewSpells.setAdapter(adapter);
     }
 
-    @Override
     public void showLoading() {
         frameLayout.setVisibility(View.VISIBLE);
         loading.setVisibility(View.VISIBLE);
         recyclerViewSpells.setVisibility(View.GONE);
     }
 
-    @Override
     public void hideLoading() {
         frameLayout.setVisibility(View.GONE);
         loading.setVisibility(View.GONE);

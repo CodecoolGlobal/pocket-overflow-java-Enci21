@@ -9,6 +9,7 @@ import com.example.pocketoverflow.roomDB.User;
 public interface SignInContract {
 
     interface SignInView extends BaseView {
+
         void signIn(View view);
 
         void showLoading();

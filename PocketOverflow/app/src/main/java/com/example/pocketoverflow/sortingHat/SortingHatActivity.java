@@ -69,7 +69,6 @@ public class SortingHatActivity extends AppCompatActivity implements SortingHatC
             hideLoading();
             house.setText(savedInstanceState.getString("HOUSE"));
         }
-
     }
 
 
