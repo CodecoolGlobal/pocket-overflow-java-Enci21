@@ -15,26 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pocketoverflow.R;
-import com.example.pocketoverflow.signIn.ui.JsonPlaceHolderApi;
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class CommonRoomFragment extends Fragment {
-
-    String house;
-    View root;
+public class CommonRoomFragment extends Fragment implements CommonRoomContract.CommonRoomView {
 
     @BindView(R.id.name)
     TextView name;
@@ -60,22 +48,22 @@ public class CommonRoomFragment extends Fragment {
     @BindView(R.id.logoBack)
     ImageView logo;
 
-    JsonPlaceHolderApi jsonPlaceHolderApi;
-    String apiKey;
-    String houseId;
-    ArrayList<MembersItem> members = new ArrayList<>();
-    CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private String houseId;
+    private String house;
+    private View root;
+    private ArrayList<MembersItem> members = new ArrayList<>();
     private MemberAdapter adapter;
+    private CommonRoomPresenter presenter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_commonroom, container, false);
         ButterKnife.bind(this, root);
-        apiKey = "$2a$10$lxDvwgZJ/JrK2rKd9uNFzOQcCXds1WyJkvMU/dnyIbdvVSNrKjTjy";
 
         if (savedInstanceState == null) {
             SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
             house = sharedPref.getString("house", "").replace("\"", "");
+            presenter = new CommonRoomPresenter(this, getActivity().getApplication());
 
             switch (house) {
                 case "Gryffindor":
@@ -91,13 +79,8 @@ public class CommonRoomFragment extends Fragment {
                     houseId = "5a05dc8cd45bd0a11bd5e071";
                     break;
             }
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://www.potterapi.com/")
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create())
-                    .build();
+            presenter.fetchData();
 
-            jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
-            fetchData();
         } else {
             houseId = savedInstanceState.getString("HOUSEID");
             house = savedInstanceState.getString("HOUSE");
@@ -113,36 +96,30 @@ public class CommonRoomFragment extends Fragment {
             membersRecyclerView.setAdapter(adapter);
         }
 
-
-        if (house.equals("Gryffindor")) {
-            root.setBackgroundResource(R.drawable.gryffindor_side_nav);
-            logo.setImageResource(R.drawable.gryffindor_logo);
-        } else if (house.equals("Hufflepuff")) {
-            root.setBackgroundResource(R.drawable.huffle_side_nav);
-            logo.setImageResource(R.drawable.hufflepuff_logo);
-        } else if (house.equals("Ravenclaw")) {
-            root.setBackgroundResource(R.drawable.ravenclaw_side_nav);
-            logo.setImageResource(R.drawable.ravenclaw_logo);
-        } else if (house.equals("Slytherin")) {
-            root.setBackgroundResource(R.drawable.slytherin_side_nav);
-            logo.setImageResource(R.drawable.slytherin_logo);
+        switch (house) {
+            case "Gryffindor":
+                root.setBackgroundResource(R.drawable.gryffindor_side_nav);
+                logo.setImageResource(R.drawable.gryffindor_logo);
+                break;
+            case "Hufflepuff":
+                root.setBackgroundResource(R.drawable.huffle_side_nav);
+                logo.setImageResource(R.drawable.hufflepuff_logo);
+                break;
+            case "Ravenclaw":
+                root.setBackgroundResource(R.drawable.ravenclaw_side_nav);
+                logo.setImageResource(R.drawable.ravenclaw_logo);
+                break;
+            case "Slytherin":
+                root.setBackgroundResource(R.drawable.slytherin_side_nav);
+                logo.setImageResource(R.drawable.slytherin_logo);
+                break;
         }
         return root;
     }
 
-    private void fetchData() {
-        compositeDisposable.add(jsonPlaceHolderApi.getHouseById(houseId, apiKey)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<House>>() {
-                    @Override
-                    public void accept(List<House> houses) {
-                        displayData(houses.get(0));
-                    }
-                }));
-    }
 
-    private void displayData(House house) {
+    @Override
+    public void displayData(House house) {
         members = (ArrayList<MembersItem>) house.getMembers();
         adapter = new MemberAdapter(members);
         membersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -157,7 +134,6 @@ public class CommonRoomFragment extends Fragment {
 
     @Override
     public void onStop() {
-        compositeDisposable.clear();
         super.onStop();
     }
 
@@ -173,5 +149,20 @@ public class CommonRoomFragment extends Fragment {
         outState.putString("FOUNDER", founder.getText().toString());
         outState.putString("MASCOT", mascot.getText().toString());
         outState.putParcelableArrayList("MEMBERS", members);
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public String getHouseId() {
+        return houseId;
     }
 }
