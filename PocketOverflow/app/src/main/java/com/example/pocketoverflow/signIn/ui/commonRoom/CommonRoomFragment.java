@@ -3,10 +3,13 @@ package com.example.pocketoverflow.signIn.ui.commonRoom;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,6 +51,12 @@ public class CommonRoomFragment extends Fragment implements CommonRoomContract.C
     @BindView(R.id.logoBack)
     ImageView logo;
 
+    @BindView(R.id.frameGrayoverlay)
+    FrameLayout frameLayout;
+
+    @BindView(R.id.loading)
+    ProgressBar loading;
+
     private String houseId;
     private String house;
     private View root;
@@ -65,21 +74,14 @@ public class CommonRoomFragment extends Fragment implements CommonRoomContract.C
             house = sharedPref.getString("house", "").replace("\"", "");
             presenter = new CommonRoomPresenter(this, getActivity().getApplication());
 
-            switch (house) {
-                case "Gryffindor":
-                    houseId = "5a05e2b252f721a3cf2ea33f";
-                    break;
-                case "Ravenclaw":
-                    houseId = "5a05da69d45bd0a11bd5e06f";
-                    break;
-                case "Hufflepuff":
-                    houseId = "5a05dc58d45bd0a11bd5e070";
-                    break;
-                case "Slytherin":
-                    houseId = "5a05dc8cd45bd0a11bd5e071";
-                    break;
-            }
-            presenter.fetchData();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    showLoading();
+                    presenter.fetchData();
+                    hideLoading();
+                }
+            }, 2000);
 
         } else {
             houseId = savedInstanceState.getString("HOUSEID");
@@ -100,18 +102,25 @@ public class CommonRoomFragment extends Fragment implements CommonRoomContract.C
             case "Gryffindor":
                 root.setBackgroundResource(R.drawable.gryffindor_side_nav);
                 logo.setImageResource(R.drawable.gryffindor_logo);
+                houseId = "5a05e2b252f721a3cf2ea33f";
                 break;
+
             case "Hufflepuff":
                 root.setBackgroundResource(R.drawable.huffle_side_nav);
                 logo.setImageResource(R.drawable.hufflepuff_logo);
+                houseId = "5a05dc58d45bd0a11bd5e070";
                 break;
+
             case "Ravenclaw":
                 root.setBackgroundResource(R.drawable.ravenclaw_side_nav);
                 logo.setImageResource(R.drawable.ravenclaw_logo);
+                houseId = "5a05da69d45bd0a11bd5e06f";
                 break;
+
             case "Slytherin":
                 root.setBackgroundResource(R.drawable.slytherin_side_nav);
                 logo.setImageResource(R.drawable.slytherin_logo);
+                houseId = "5a05dc8cd45bd0a11bd5e071";
                 break;
         }
         return root;
@@ -130,6 +139,32 @@ public class CommonRoomFragment extends Fragment implements CommonRoomContract.C
         school.setText(house.getSchool());
         founder.setText(house.getFounder());
         mascot.setText(house.getMascot());
+    }
+
+    @Override
+    public void showLoading() {
+        frameLayout.setVisibility(View.VISIBLE);
+        loading.setVisibility(View.VISIBLE);
+        name.setVisibility(View.GONE);
+        headOfHouse.setVisibility(View.GONE);
+        houseGhost.setVisibility(View.GONE);
+        mascot.setVisibility(View.GONE);
+        school.setVisibility(View.GONE);
+        founder.setVisibility(View.GONE);
+        membersRecyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideLoading() {
+        frameLayout.setVisibility(View.GONE);
+        loading.setVisibility(View.GONE);
+        name.setVisibility(View.VISIBLE);
+        headOfHouse.setVisibility(View.VISIBLE);
+        houseGhost.setVisibility(View.VISIBLE);
+        mascot.setVisibility(View.VISIBLE);
+        school.setVisibility(View.VISIBLE);
+        founder.setVisibility(View.VISIBLE);
+        membersRecyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override

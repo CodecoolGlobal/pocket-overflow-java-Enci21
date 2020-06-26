@@ -9,6 +9,10 @@ public interface CommonRoomContract {
 
         String getHouseId();
 
+        void showLoading();
+
+        void hideLoading();
+
         void displayData(House house);
 
     }
