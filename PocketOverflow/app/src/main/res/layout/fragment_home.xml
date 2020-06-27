@@ -55,16 +55,31 @@
         app:layout_constraintTop_toBottomOf="@id/myHouse" />
 
     <TextView
+        android:id="@+id/animagusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/animagus"
+        android:textColor="@color/textBlack"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/patronusText" />
+
+    <TextView
         android:id="@+id/animagus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="16dp"
-        android:text="@string/i_m_an_animagus_i_can_transform_to"
         android:layout_marginLeft="16dp"
+        android:textSize="16sp"
         android:textColor="@color/textBlack"
         android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/animagusText"
         app:layout_constraintTop_toBottomOf="@+id/patronusTextView" />
 
     <ImageView

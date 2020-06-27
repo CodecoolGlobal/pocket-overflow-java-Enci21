@@ -32,6 +32,9 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.animagus)
     TextView animagus;
 
+    @BindView(R.id.animagusText)
+    TextView animagusText;
+
     @BindView(R.id.dumbledoresArmy)
     ImageView dumbledoresArmy;
 
@@ -48,13 +51,19 @@ public class HomeFragment extends Fragment {
         patronusTextView.setText(sharedPref.getString("patronus", ""));
         userName.setText(sharedPref.getString("userName", ""));
         house.setText(sharedPref.getString("house", "").replace("\"", ""));
-        animagus.setText(animagus.getText() + sharedPref.getString("animagus", ""));
+        if (sharedPref.contains("animagus")) {
+            animagus.setText(sharedPref.getString("animagus", ""));
+            animagus.setVisibility(View.VISIBLE);
+            animagusText.setVisibility(View.VISIBLE);
+
+        }
         if (sharedPref.getBoolean("DA", false)) {
             dumbledoresArmy.setVisibility(View.VISIBLE);
         }
         if (sharedPref.getBoolean("OF", false)) {
             orderOfThePhoenix.setVisibility(View.VISIBLE);
         }
+
 
         if (house.getText().equals("Gryffindor")) {
             view.setBackgroundResource(R.drawable.gryffindor_side_nav);
