@@ -73,15 +73,15 @@ public class CommonRoomFragment extends Fragment implements CommonRoomContract.C
             SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
             house = sharedPref.getString("house", "").replace("\"", "");
             presenter = new CommonRoomPresenter(this, getActivity().getApplication());
-
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    showLoading();
                     presenter.fetchData();
                     hideLoading();
                 }
             }, 2000);
+            showLoading();
+
 
         } else {
             houseId = savedInstanceState.getString("HOUSEID");
