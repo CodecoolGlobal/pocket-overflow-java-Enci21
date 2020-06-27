@@ -51,7 +51,7 @@ public class HomeFragment extends Fragment {
         patronusTextView.setText(sharedPref.getString("patronus", ""));
         userName.setText(sharedPref.getString("userName", ""));
         house.setText(sharedPref.getString("house", "").replace("\"", ""));
-        if (sharedPref.contains("animagus")) {
+        if (!sharedPref.getString("animagus", "").equals("")) {
             animagus.setText(sharedPref.getString("animagus", ""));
             animagus.setVisibility(View.VISIBLE);
             animagusText.setVisibility(View.VISIBLE);
