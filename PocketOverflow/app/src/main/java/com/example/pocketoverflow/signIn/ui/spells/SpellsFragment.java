@@ -44,7 +44,7 @@ public class SpellsFragment extends Fragment implements SpellContract.SpellView 
         View root = inflater.inflate(R.layout.fragment_spells, container, false);
         ButterKnife.bind(this, root);
         presenter = new SpellPresenter(this);
-        presenter.fetchData();
+
 
         if (savedInstanceState == null) {
             SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
@@ -54,6 +54,7 @@ public class SpellsFragment extends Fragment implements SpellContract.SpellView 
                 @Override
                 public void run() {
                     showLoading();
+                    presenter.fetchData();
                     hideLoading();
                 }
             }, 2000);
