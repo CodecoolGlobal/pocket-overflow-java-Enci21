@@ -30,10 +30,10 @@ public class SpellsFragment extends Fragment implements SpellContract.SpellView 
     private SpellAdapter adapter;
     private String house;
     private SpellPresenter presenter;
+    private ArrayList<Spell> spells = new ArrayList<>();
 
     @BindView(R.id.frameGrayoverlay)
     FrameLayout frameLayout;
-    private ArrayList<Spell> spells = new ArrayList<>();
 
     @BindView(R.id.recyclerViewSpells)
     RecyclerView recyclerViewSpells;
@@ -44,7 +44,6 @@ public class SpellsFragment extends Fragment implements SpellContract.SpellView 
         View root = inflater.inflate(R.layout.fragment_spells, container, false);
         ButterKnife.bind(this, root);
         presenter = new SpellPresenter(this);
-
 
         if (savedInstanceState == null) {
             SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
@@ -61,7 +60,7 @@ public class SpellsFragment extends Fragment implements SpellContract.SpellView 
         } else {
             hideLoading();
             house = savedInstanceState.getString("HOUSE");
-            adapter = new SpellAdapter(savedInstanceState.getParcelableArrayList("SPELLS"));
+            displayData(savedInstanceState.getParcelableArrayList("SPELLS"));
         }
 
         switch (house) {
@@ -99,6 +98,10 @@ public class SpellsFragment extends Fragment implements SpellContract.SpellView 
         frameLayout.setVisibility(View.GONE);
         loading.setVisibility(View.GONE);
         recyclerViewSpells.setVisibility(View.VISIBLE);
+    }
+
+    public void setSpells(ArrayList<Spell> spells) {
+        this.spells = spells;
     }
 
     @Override

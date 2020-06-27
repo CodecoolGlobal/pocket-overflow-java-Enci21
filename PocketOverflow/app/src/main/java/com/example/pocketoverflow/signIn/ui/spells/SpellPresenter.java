@@ -4,6 +4,7 @@ import com.example.pocketoverflow.BuildConfig;
 import com.example.pocketoverflow.apiservice.DataApiService;
 import com.example.pocketoverflow.apiservice.RetrofitClient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.SingleObserver;
@@ -35,6 +36,7 @@ public class SpellPresenter implements SpellContract.SpellPresenter {
 
                     @Override
                     public void onSuccess(List<Spell> spells) {
+                        view.setSpells((ArrayList<Spell>) spells);
                         view.displayData(spells);
                     }
 
